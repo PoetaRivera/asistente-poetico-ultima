@@ -23,6 +23,11 @@ const vocales = fs.readFileSync("./public/vocales.js", "utf8")
   .replace(/^import\s+.*from\s+.*;\n?/gm, "");
 eval(vocales);
 
+const silabeo = fs.readFileSync("./public/silabeo.js", "utf8")
+  .replace(/export\s+function/g, "function")
+  .replace(/^import\s+.*from\s+.*;\n?/gm, "");
+eval(silabeo);
+
 const code = fs.readFileSync("./public/asistentepoetico.js", "utf8")
   .replace(/^import\s+.*from\s+.*;\n?/gm, "");
 eval(code);
