@@ -14,8 +14,14 @@ global.screen = { height: 768 };
 const fs = require("fs");
 
 const utils = fs.readFileSync("./public/utils.js", "utf8")
-  .replace(/export\s+function/g, "function");
+  .replace(/export\s+function/g, "function")
+  .replace(/^import\s+.*from\s+.*;\n?/gm, "");
 eval(utils);
+
+const vocales = fs.readFileSync("./public/vocales.js", "utf8")
+  .replace(/export\s+function/g, "function")
+  .replace(/^import\s+.*from\s+.*;\n?/gm, "");
+eval(vocales);
 
 const code = fs.readFileSync("./public/asistentepoetico.js", "utf8")
   .replace(/^import\s+.*from\s+.*;\n?/gm, "");
