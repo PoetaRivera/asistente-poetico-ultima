@@ -136,6 +136,47 @@ check("'la aurora' tiene sinalefa → 3 sílabas", contaPoetico("la aurora"),  3
 check("'de oro' tiene sinalefa → 2 sílabas",    contaPoetico("de oro"),     2);
 check("'lo oscuro' tiene sinalefa → 3 sílabas", contaPoetico("lo oscuro"),  3);
 
+console.log("\n═══ 9. Silabeo — esdrújulas ═══");
+
+check("pájaro → pá/ja/ro",        silabasOrtograficas("pájaro"),      "pá/ja/ro");
+check("médico → mé/di/co",        silabasOrtograficas("médico"),      "mé/di/co");
+check("ábaco → á/ba/co",          silabasOrtograficas("ábaco"),       "á/ba/co");
+check("último → úl/ti/mo",        silabasOrtograficas("último"),      "úl/ti/mo");
+check("música → mú/si/ca",        silabasOrtograficas("música"),      "mú/si/ca");
+check("cántico → cán/ti/co",      silabasOrtograficas("cántico"),     "cán/ti/co");
+
+console.log("\n═══ 10. Conteo ortográfico — versos de arte mayor ═══");
+
+// nues/tras=2, vi/das=2, son=1, los=1, rí/os=2 → 8
+check("'nuestras vidas son los ríos' = 8 sílabas",
+  contaOrto("nuestras vidas son los ríos"), 8);
+
+// del=1, sa/lón=2, en=1, el=1, án/gu/lo=3, os/cu/ro=3 → 11
+check("'del salón en el ángulo oscuro' = 11 sílabas",
+  contaOrto("del salón en el ángulo oscuro"), 11);
+
+// a/mar=2, es=1, per/der=2, es=1, ga/nar=2 → 8
+check("'amar es perder es ganar' = 8 sílabas",
+  contaOrto("amar es perder es ganar"), 8);
+
+console.log("\n═══ 11. Puntuación y depuración ═══");
+
+check("'amor,' = 2 sílabas (coma ignorada)",     contaOrto("amor,"),     2);
+check("'¡sol!' = 1 sílaba (signos ignorados)",   contaOrto("¡sol!"),     1);
+check("'árbol.' = 2 sílabas (punto ignorado)",   contaOrto("árbol."),    2);
+
+console.log("\n═══ 12. Sinalefas en versos más largos ═══");
+
+// mi=1, al/ma=2, es=1, tu/ya=2 → orto=6
+// sinalefa: mi+alma → -1; alma+es → -1; tuya es llana → sin ajuste
+// total poético = 4
+check("'mi alma es tuya' = 4 sílabas poéticas",  contaPoetico("mi alma es tuya"),   4);
+
+// la=1, i/de/a=3, e/ter/na=3 → orto=7
+// sinalefa: la+idea → -1; idea+eterna → "a+e" → -1
+// "eterna" llana → sin ajuste → 5
+check("'la idea eterna' = 5 sílabas poéticas",   contaPoetico("la idea eterna"),    5);
+
 // ─── Resultado final ──────────────────────────────────────────────────────────
 
 console.log(`\n${"─".repeat(50)}`);

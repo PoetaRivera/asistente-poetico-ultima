@@ -108,4 +108,18 @@ public/
   metrica.js     → lógica poética completa (leerVerso, segundo, conteo)
   ui.js          → interfaz (principal, limpiar, ampliarVentanas)
   asistentepoetico.js → entry point (solo event listeners + imports)
-- Agregar más casos de prueba en `test-silabeo.js` (especialmente esdrújulas y versos largos)
+## Completado (2026-04-18) — Documento de limitaciones
+
+- ✅ `limitaciones-y-mejoras.md` creado con 3 secciones:
+  - Limitaciones lingüísticas (6 ítems): güe/güi, vhvvv vacío, diacríticos, sinalefa forzada, préstamos, mayúsculas
+  - Limitaciones de código (7 ítems): tipoSina mutable, jQuery muerto, largoMayor sin usar, CSS #rgb inválido, aqua por defecto, eval frágil
+  - Limitaciones UX (5 ítems): sin spinner, sin límite de entrada, sin a11y, sin botón copiar, scroll incompleto
+  - Mejoras A-K organizadas por prioridad Alta/Media/Baja con estimación de esfuerzo
+
+## Por dónde seguir
+
+Las tareas de **prioridad alta + esfuerzo bajo** pendientes (ver `limitaciones-y-mejoras.md`):
+
+1. **Eliminar código muerto** — borrar `obtenerTamanoPantalla()` y `largoMayor()` de `ui.js`
+2. **Corregir CSS inválido** — `--A400R`/`--A700R` con valor `#rgb(...)` → `rgb(...)`, y eliminar `background-color: aqua`
+3. **Ampliar casos de prueba** — agregar en `test-silabeo.js`: esdrújulas, versos largos, diéresis (`pingüino`), casos límite
