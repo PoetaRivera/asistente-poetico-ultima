@@ -165,7 +165,18 @@ check("'amor,' = 2 sílabas (coma ignorada)",     contaOrto("amor,"),     2);
 check("'¡sol!' = 1 sílaba (signos ignorados)",   contaOrto("¡sol!"),     1);
 check("'árbol.' = 2 sílabas (punto ignorado)",   contaOrto("árbol."),    2);
 
-console.log("\n═══ 12. Sinalefas en versos más largos ═══");
+console.log("\n═══ 12. Sinalefas — 'y' como vocal en borde de sinalefa ═══");
+// Bug corregido: extraeVocales asignaba a string[i] (read-only en strict mode)
+// La 'y' tras vocal (ley, hay, rey) actúa como vocal /i/ para la sinalefa
+
+// hay=1, amor=2 → orto=3; sinalefa y+a -1; amor aguda +1 → 3
+check("'hay amor' sinalefa y+a, aguda → 3 sílabas",   contaPoetico("hay amor"),   3);
+// ley=1, eterna=3 → orto=4; sinalefa y+e -1; eterna llana → 3
+check("'ley eterna' sinalefa y+e → 3 sílabas",         contaPoetico("ley eterna"), 3);
+// rey=1, oscuro=3 → orto=4; sinalefa y+o -1; oscuro llana → 3
+check("'rey oscuro' sinalefa y+o → 3 sílabas",         contaPoetico("rey oscuro"), 3);
+
+console.log("\n═══ 14. Sinalefas en versos más largos ═══");
 
 // mi=1, al/ma=2, es=1, tu/ya=2 → orto=6
 // sinalefa: mi+alma → -1; alma+es → -1; tuya es llana → sin ajuste

@@ -116,10 +116,20 @@ public/
   - Limitaciones UX (5 ítems): sin spinner, sin límite de entrada, sin a11y, sin botón copiar, scroll incompleto
   - Mejoras A-K organizadas por prioridad Alta/Media/Baja con estimación de esfuerzo
 
+## Completado (2026-04-18) — Limpieza de código muerto, CSS y pruebas
+
+- ✅ `ui.js`: eliminadas `obtenerTamanoPantalla()` (usaba jQuery, nunca llamada) y `largoMayor()` (planificada, nunca integrada)
+- ✅ `asistentepoetico.css`: corregidas `--A400R` y `--A700R` (`#rgb(...)` → `rgb(...)`)
+- ✅ `asistentepoetico.css`: eliminado `background-color: aqua` del bloque `body` por defecto
+- ✅ `test-silabeo.js`: suite ampliada de 45 a 59 pruebas (grupos 9-12: esdrújulas, arte mayor, puntuación, sinalefas en versos largos)
+- ✅ Deploy en https://asistentepoetico.web.app
+- ✅ Push a GitHub (ambos repos)
+
 ## Por dónde seguir
 
-Las tareas de **prioridad alta + esfuerzo bajo** pendientes (ver `limitaciones-y-mejoras.md`):
+Todas las tareas de **prioridad alta** del documento `limitaciones-y-mejoras.md` están completas.
 
-1. **Eliminar código muerto** — borrar `obtenerTamanoPantalla()` y `largoMayor()` de `ui.js`
-2. **Corregir CSS inválido** — `--A400R`/`--A700R` con valor `#rgb(...)` → `rgb(...)`, y eliminar `background-color: aqua`
-3. **Ampliar casos de prueba** — agregar en `test-silabeo.js`: esdrújulas, versos largos, diéresis (`pingüino`), casos límite
+Siguientes opciones (prioridad media):
+1. **Eliminar `tipoSina` como estado mutable** — pasarlo como parámetro a `obtenerSilabas()`
+2. **Migrar test runner a Vitest** — reemplazar el `eval()` frágil por ESM nativo
+3. **Soporte diéresis `güe`/`güi`** — `pingüino`, `vergüenza` (requiere cambios en `vocales.js` y `silabeo.js`)
