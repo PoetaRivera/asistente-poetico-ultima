@@ -10,27 +10,16 @@ global.screen = { height: 768 };
 
 // Cargar el algoritmo — compatible con módulos ES6 via eval:
 // se eliminan las palabras clave import/export antes del eval
-// para que las funciones queden disponibles en el scope global.
+// para que las funciones queden en el scope global.
+// IMPORTANTE: el eval debe ejecutarse en scope global (no dentro de función).
 const fs = require("fs");
+const prep = p => fs.readFileSync(p,"utf8").replace(/\r\n/g,"\n").replace(/export\s+function/g,"function").replace(/^import\s+.*from\s+.*;\n?/gm,"");
 
-const utils = fs.readFileSync("./public/utils.js", "utf8")
-  .replace(/export\s+function/g, "function")
-  .replace(/^import\s+.*from\s+.*;\n?/gm, "");
-eval(utils);
-
-const vocales = fs.readFileSync("./public/vocales.js", "utf8")
-  .replace(/export\s+function/g, "function")
-  .replace(/^import\s+.*from\s+.*;\n?/gm, "");
-eval(vocales);
-
-const silabeo = fs.readFileSync("./public/silabeo.js", "utf8")
-  .replace(/export\s+function/g, "function")
-  .replace(/^import\s+.*from\s+.*;\n?/gm, "");
-eval(silabeo);
-
-const code = fs.readFileSync("./public/asistentepoetico.js", "utf8")
-  .replace(/^import\s+.*from\s+.*;\n?/gm, "");
-eval(code);
+eval(prep("./public/utils.js"));
+eval(prep("./public/vocales.js"));
+eval(prep("./public/silabeo.js"));
+eval(prep("./public/metrica.js"));
+eval(prep("./public/ui.js"));
 
 // ─── Utilidades ───────────────────────────────────────────────────────────────
 
