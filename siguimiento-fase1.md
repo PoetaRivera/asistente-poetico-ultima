@@ -175,15 +175,28 @@ Reemplazo completo del motor poético (utils.js, vocales.js, silabeo.js, metrica
 - `principal()` (botón Iniciar): sin cambios, compatible con nuevo motor
 - Backup disponible en `public/_backup/` para rollback
 
-### NO desplegado a producción
+### ✅ Desplegado a producción — 8 mayo 2026
 
-Pendiente verificación visual en navegador (firebase serve) antes de hacer `firebase deploy`.
+- Commit `b0660eb` en submódulo public: refactor motor MCP + analizador + backup (14 archivos)
+- Push a `github.com/PoetaRivera/Asistente-Poetico` (submódulo)
+- Commit `44369e6` en repo principal: seguimiento, docs, actualización submódulo
+- Push a `github.com/PoetaRivera/asistente-poetico-ultima` (repo principal)
+- Deploy a Firebase Hosting: https://asistentepoetico.web.app (33 archivos nuevos, 1547 total)
+
+### Security review — 8 mayo 2026
+
+- Revisión completa de seguridad completada (ver `security-review` en sesión Claude)
+- Hallazgos: 0 HIGH, 2 MEDIUM, 4 LOW, 2 INFO
+- MEDIUM: `innerHTML` en `ui.js:199` (patrón frágil, actualmente seguro por sanitización previa)
+- MEDIUM: sin CSP ni headers de seguridad en `firebase.json`
+- LOW: `eval()` en test-silabeo.js, sin límite de input, firebase-debug.log no en .gitignore
 
 ---
 
 ## Por dónde seguir
 
-1. **Probar en navegador** con `firebase serve` — verificar botón "Iniciar" y "Análisis completo" visualmente
-2. **Deploy** a `asistentepoetico.web.app` cuando esté verificado
-3. **Mejorar UI de resultados** — reemplazar `<pre>` JSON por tabla HTML estilizada
-4. **Agregar agente IA** — página `agente.html` con chat + Anthropic API + tools
+1. **Agregar CSP y headers de seguridad** en `firebase.json` (recomendado por security review)
+2. **Refactorizar `innerHTML`** en `analisisCompleto()` → usar DOM API para prevenir XSS futuro
+3. **Agregar `.gitignore`** con `firebase-debug.log` y `node_modules/`
+4. **Mejorar UI de resultados** — la tabla HTML ya está implementada; refinar estilos
+5. **Agregar agente IA** — página `agente.html` con chat + Anthropic API + tools
