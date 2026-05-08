@@ -125,11 +125,65 @@ public/
 - ✅ Deploy en https://asistentepoetico.web.app
 - ✅ Push a GitHub (ambos repos)
 
+## Completado (2026-04-18) — Bug crítico strict-mode en extraeVocales
+
+- ✅ `vocales.js`: `palabraCopia = p` → `palabraCopia = p.split("")` (era string inmutable, se asignaba a índice → TypeError en módulos ES6)
+- ✅ Suite de pruebas: 62/62 pasan — añadidos casos `hay amor`, `ley eterna`, `rey oscuro` que cubren 'y' como vocal en borde de sinalefa
+- ✅ Deploy y push
+
+---
+
+## Refactor con motor MCP — 1 mayo 2026 ✅ COMPLETADO
+
+### Qué se hizo
+
+Reemplazo completo del motor poético (utils.js, vocales.js, silabeo.js, metrica.js) por la versión mejorada del proyecto `SERVIDOR MCP`. Se agregó `analizador.js` y un botón "Análisis completo" en la UI.
+
+### Archivos modificados
+
+| Archivo | Acción |
+|---------|--------|
+| `public/_backup/*` | Backup de los 4 archivos originales del motor |
+| `public/utils.js` | Reemplazado con versión MCP (vCH simplificado, nuevoArreglo corregido, JSDoc) |
+| `public/vocales.js` | Reemplazado con versión MCP (sinalefa/hiato con Set O(1), 3 bugs de `;` corregidos, triptongo dFd) |
+| `public/silabeo.js` | Reemplazado con versión MCP (imports limpios, variables muertas eliminadas, guía triplicado arreglado) |
+| `public/metrica.js` | Reemplazado con versión MCP (tipoSina como parámetro, bug sinalefaDosPalabras corregido, sin código muerto) |
+| `public/analizador.js` | Nuevo: análisis completo de poemas (rima, métrica, 19 formas, sugerencias) |
+| `public/index.html` | Botón "Análisis completo" + sección `<pre>` para resultados |
+| `public/ui.js` | Import y función `analisisCompleto()` |
+| `public/asistentepoetico.js` | Listener para el nuevo botón |
+| `public/package.json` | Agregado `"type": "module"` |
+
+### Bugs corregidos (heredados de la versión anterior)
+
+| Bug | Ubicación | Corrección |
+|-----|-----------|------------|
+| `if (match("h"));` — 3 ocurrencias | `vocales.js` | `;` eliminado |
+| `sinalefaDosPalabras` chequeaba `vocalesPalUno` 2 veces | `metrica.js` | Corregido a `vocalesPalDos` |
+| `tipoSina` variable global mutable | `metrica.js` | Pasado como parámetro a `obtenerSilabas()` |
+| Doble llamada a `determinaAcentoPalabra` | `metrica.js` | Resultado almacenado en variable |
+| `cadena == "guía"` triplicado | `silabeo.js` | Simplificado a `!==` |
+| Triptongo dFd (iai, uai) no soportado | `vocales.js` | Agregado caso 3/4 |
+| `úe` duplicado, faltaba `úo` en `hiato()` | `vocales.js` | Corregido con Set |
+
+### Verificación
+
+- ESLint: 0 errores
+- Node.js: `analizarPoema()`, `analizarVerso()`, `extraerRimaPalabra()`, `validarMetrica()`, `escanearPoema()` funcionan
+- `ui.js`: las 5 funciones exportadas cargan correctamente
+- Firebase serve: HTML y JS se sirven correctamente en localhost
+- `principal()` (botón Iniciar): sin cambios, compatible con nuevo motor
+- Backup disponible en `public/_backup/` para rollback
+
+### NO desplegado a producción
+
+Pendiente verificación visual en navegador (firebase serve) antes de hacer `firebase deploy`.
+
+---
+
 ## Por dónde seguir
 
-Todas las tareas de **prioridad alta** del documento `limitaciones-y-mejoras.md` están completas.
-
-Siguientes opciones (prioridad media):
-1. **Eliminar `tipoSina` como estado mutable** — pasarlo como parámetro a `obtenerSilabas()`
-2. **Migrar test runner a Vitest** — reemplazar el `eval()` frágil por ESM nativo
-3. **Soporte diéresis `güe`/`güi`** — `pingüino`, `vergüenza` (requiere cambios en `vocales.js` y `silabeo.js`)
+1. **Probar en navegador** con `firebase serve` — verificar botón "Iniciar" y "Análisis completo" visualmente
+2. **Deploy** a `asistentepoetico.web.app` cuando esté verificado
+3. **Mejorar UI de resultados** — reemplazar `<pre>` JSON por tabla HTML estilizada
+4. **Agregar agente IA** — página `agente.html` con chat + Anthropic API + tools
