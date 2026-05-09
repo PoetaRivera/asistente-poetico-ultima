@@ -191,12 +191,19 @@ Reemplazo completo del motor poético (utils.js, vocales.js, silabeo.js, metrica
 - MEDIUM: sin CSP ni headers de seguridad en `firebase.json`
 - LOW: `eval()` en test-silabeo.js, sin límite de input, firebase-debug.log no en .gitignore
 
+### Post-security-review — 8 mayo 2026
+
+- ✅ CSP + headers de seguridad en `firebase.json` (commit `e264141`)
+- ✅ `innerHTML` refactorizado → `createElement`/`textContent` en `ui.js` (commit `ed77315`)
+- ✅ `.gitignore` agregado con `firebase-debug.log` y `node_modules/` (commit `cf94802`)
+- ✅ UI de resultados mejorada: tabla modo oscuro, hover, transiciones, bordes, tipografía (commit `fdf2bc8`)
+- ❌ Agente IA descartado por el usuario
+
 ---
 
 ## Por dónde seguir
 
-1. **Agregar CSP y headers de seguridad** en `firebase.json` (recomendado por security review)
-2. **Refactorizar `innerHTML`** en `analisisCompleto()` → usar DOM API para prevenir XSS futuro
-3. **Agregar `.gitignore`** con `firebase-debug.log` y `node_modules/`
-4. **Mejorar UI de resultados** — la tabla HTML ya está implementada; refinar estilos
-5. **Agregar agente IA** — página `agente.html` con chat + Anthropic API + tools
+1. **Testing visual** — verificar modo oscuro/claro, responsive en mobile, transiciones en navegador
+2. **Límite de input** — agregar validación de longitud máxima en el textarea de entrada
+3. **Internacionalización** — soporte para otros idiomas además del español
+4. **Exportar resultados** — botón para descargar/exportar el análisis como PDF o texto
